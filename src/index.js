@@ -1,4 +1,4 @@
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
 const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
@@ -8,7 +8,7 @@ const configRequire = require('./utils/configRequire');
 const { token, guildId, clientId } = configRequire(`${path.join(__dirname)}/config.json`);
 
 info('Initializing...');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 const commandFiles = fs.readdirSync(`${path.join(__dirname)}/commands`).filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync(`${path.join(__dirname)}/events`).filter(file => file.endsWith('.js'));
 const commands = [];
@@ -22,6 +22,7 @@ for (const file of commandFiles) {
 	info(`Registered command: ${command.data.name}`);
 	client.commands.set(command.data.name, command);
 }
+info('Registered commands successfully!');
 
 
 info('Registering events...');
@@ -35,9 +36,10 @@ for (const file of eventFiles) {
 	}
 	info('Registered Event:', event.name);
 }
+info('Registered events successfully!');
 
 async function registerCommands() {
-	const rest = new REST({ version: '9' })
+	const rest = new REST({ version: '10' })
 		.setToken(token);
 	try {
 		if (!clientId) {
@@ -66,7 +68,7 @@ async function registerCommands() {
 }
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) await otherInteractions(interaction);
+	if (!interaction.isCommand()) return otherInteractions(interaction);
 	const command = client.commands.get(interaction.commandName);
 	if (!command) return;
 	try {

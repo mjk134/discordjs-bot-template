@@ -5,11 +5,10 @@ function info(...args) {
 }
 
 function error(...args) {
-	console.log(chalk.magentaBright(new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')), chalk.red(' :: ERROR :: '), chalk.yellow(`${args.join(' ')}`));
-
+	console.log(chalk.magentaBright(new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')) + chalk.red(' :: ERROR :: '), chalk.yellow(`${args.join(' ')}`));
 }
 
 module.exports = {
-	info: info,
-	error: error,
+	info,
+	error,
 };
