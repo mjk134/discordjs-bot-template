@@ -1,17 +1,23 @@
 {
   "name": "discordjs-bot-template",
   "version": "1.0.0",
+  "type": "module",
+  "node": ">=16",
   "description": "A simple bot template for discord.js",
-  "main": "src/index.js",
+  "exports": "./src/index.js",
   "repository": "https://github.com/mjk134/discordjs-bot-template",
   "author": "mjk134 <57556877+mjk134@users.noreply.github.com>",
   "license": "Apache License 2.0",
   "private": false,
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "eslint ."
+  },
   "dependencies": {
-    "@discordjs/builders": "^1.2.0",
-    "@discordjs/rest": "^1.2.0",
-    "discord-api-types": "^0.37.11",
-    "discord.js": "^14.5.0"
+    "chalk": "^5.3.0",
+    "common-es": "^1.0.1",
+    "discord.js": "^14.5.0",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "eslint": "^8.15.0"
